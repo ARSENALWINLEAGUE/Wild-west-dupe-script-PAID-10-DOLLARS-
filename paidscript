@@ -1,1 +1,107 @@
-loadstring(game:HttpGet("https://pastefy.app/ik5tyg7s"))()
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+    Name = 'Wild West Plus🌊',
+    Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+    LoadingTitle = 'Wild West Plus Hub',
+    LoadingSubtitle = 'By Brian._._moser',
+    Theme = 'Default', -- Check https://docs.sirius.menu/rayfield/configuration/themes
+
+    DisableRayfieldPrompts = false,
+    DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+
+    ConfigurationSaving = {
+        Enabled = true,
+        FolderName = nil, -- Create a custom folder for your hub/game
+        FileName = 'Wild West Plus Hub',
+    },
+
+    Discord = {
+        Enabled = true, -- Prompt the user to join your Discord server if their executor supports it
+        Invite = 'OWSJ', -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
+        RememberJoins = false, -- Set this to false to make them join the discord every time they load it up
+    },
+
+    KeySystem = true, -- Set this to true to use our key system
+    KeySettings = {
+        Title = 'Wild West Plus🌊',
+        Subtitle = 'Key System',
+        Note = 'Buy a key via discord (add eurcloudy on dc)', -- Use this to tell the user how to get a key
+        FileName = 'Wild West Plus', -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+        SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+        GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+        Key = { 'Biney?' }, -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+    },
+})
+
+local MainTab = Window:CreateTab('Money Duping', nil) -- Title, Image
+local MainSection = MainTab:CreateSection('Main')
+
+Rayfield:Notify({
+    Title = 'WWP Executed',
+    Content = 'Enjoy the script.',
+    Duration = 6.5,
+    Image = nil,
+})
+
+local Toggle = MainTab:CreateToggle({
+    Name = 'Money Duper',
+    CurrentValue = false,
+    Flag = 'Toggle1',
+    Callback = function(Value) -- Corrected: Only one Callback function
+        local player = game.Players.LocalPlayer
+        repeat
+            wait()
+        until player:FindFirstChild('PlayerGui')
+
+        enabled = Value -- Update the enabled variable with the toggle value
+
+        while true do
+            if enabled then
+                for _, v in pairs(player.PlayerGui:GetDescendants()) do
+                    if
+                        v:IsA('TextLabel')
+                        and v.Text
+                        and string.find(v.Text, '%$')
+                    then
+                        -- Get current money from the TextLabel
+                        local currentMoneyStr = string.gsub(v.Text, '[$,]', '') -- Remove "$" and ","
+                        local currentMoney = tonumber(currentMoneyStr) or 0 -- Convert to number, default to 0 if nil
+
+                        -- Generate random increment between 10,000 and 300,000
+                        local increment = math.random(10000, 300000)
+
+                        -- Add increment to current money
+                        currentMoney = currentMoney + increment
+
+                        -- Format the updated money with commas
+                        local moneyStr = tostring(currentMoney)
+                        local reversedStr = string.reverse(moneyStr)
+                        local formattedStr = ''
+                        for i = 1, #reversedStr do
+                            formattedStr = formattedStr .. reversedStr:sub(i, i)
+                            if i % 3 == 0 and i ~= #reversedStr then
+                                formattedStr = formattedStr .. ','
+                            end
+                        end
+                        v.Text = '$' .. string.reverse(formattedStr)
+                    end
+                end
+            end
+
+            wait(0.5) -- Short wait for smooth animation
+        end
+    end, -- Corrected: Closing brace is here
+})
+
+
+
+local FirstTab = Window:CreateTab('Gun modifications', nil) -- Title, Image
+local Section = FirstTab:CreateSection('Guns mods')
+
+local Button = FirstTab:CreateButton({
+    Name = 'Silent aim',
+    Callback = function()
+        -- The function that takes place when the button is pressed
+    end,
+})
